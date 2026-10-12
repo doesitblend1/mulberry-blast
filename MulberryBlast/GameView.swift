@@ -13,7 +13,7 @@ struct GameView: View {
     @State private var boardFrame: CGRect = .zero
     @State private var muted = Sound.shared.muted
 
-    private let lift: CGFloat = 80   // piece floats above the finger so it stays visible
+    private let lift: CGFloat = 56   // piece floats above the finger so it stays visible
 
     var body: some View {
         GeometryReader { geo in
@@ -21,8 +21,6 @@ struct GameView: View {
             let cell = side / CGFloat(GameModel.size)
 
             ZStack {
-                Theme.background.ignoresSafeArea()
-
                 VStack(spacing: 22) {
                     header
                     board(side: side, cell: cell)
@@ -52,6 +50,7 @@ struct GameView: View {
                 if model.isGameOver { gameOver }
             }
             .frame(width: geo.size.width, height: geo.size.height)
+            .background(Theme.background.ignoresSafeArea())
             .coordinateSpace(name: "root")
             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: model.banner)
             .onChange(of: model.isGameOver) { over in if over { Sound.shared.play("gameover") } }
@@ -206,7 +205,6 @@ struct GameView: View {
 
     private var gameOver: some View {
         ZStack {
-            Color.black.opacity(0.65).ignoresSafeArea()
             VStack(spacing: 14) {
                 Text("Game Over").font(.system(size: 34, weight: .heavy, design: .rounded))
                     .foregroundColor(.white)
@@ -225,6 +223,8 @@ struct GameView: View {
             .padding(32)
             .background(RoundedRectangle(cornerRadius: 22).fill(Theme.boardBackground))
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black.opacity(0.65).ignoresSafeArea())
         .transition(.opacity)
     }
 }
