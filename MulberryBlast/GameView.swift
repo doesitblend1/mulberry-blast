@@ -65,7 +65,7 @@ struct GameView: View {
             HStack(spacing: 10) {
                 Picker("Mode", selection: Binding(
                     get: { model.mode },
-                    set: { withAnimation { model.start($0) } })) {
+                    set: { withAnimatiset: { newMode in withAnimation { model.start(newMode) } })) {on { model.start($0) } })) {
                     Text("Classic").tag(GameMode.classic)
                     Text("Daily").tag(GameMode.daily)
                 }
